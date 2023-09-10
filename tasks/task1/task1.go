@@ -4,7 +4,10 @@
 */
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 // Объявление структуры Human
 type Human struct {
@@ -14,11 +17,18 @@ type Human struct {
 	Age       int
 }
 
+// Пример метода
+func (h *Human) SaySomething() string {
+	return "Wish me luck!\n"
+}
+func (h *Human) DiceThrow() int {
+	min := 2
+	max := 12
+	return rand.Intn((max - min) + min)
+}
+
 // Объявление структуры Action
 type Action struct {
-	// Примерный набор полей: что-то говорит (если говорит, то что именно), продолжает молчать (да или нет)
-	saysSomething string
-	remainsSilent bool
 	// Встраивание методов Human в структуру Action
 	Human
 }
@@ -26,17 +36,14 @@ type Action struct {
 func main() {
 	// Сначала прописываем значения полей Action
 	Andrew := Action{
-		saysSomething: "Hi everyone!",
-		remainsSilent: false,
-		// Затем прописываем значения полей Human
 		Human: Human{
 			firstName: "Andrew",
 			lastName:  "Black",
 			Age:       25,
 		},
 	}
-
-	// Распечатывание результата
-	fmt.Printf("%+v", Andrew)
+	// Результат
+	fmt.Printf("%+s", Andrew.SaySomething())
+	fmt.Println(Andrew.DiceThrow())
 
 }

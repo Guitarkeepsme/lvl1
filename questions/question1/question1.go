@@ -5,6 +5,9 @@
 Ниже представлено применение этих двух типов.
 */
 
+// НАДО ПРОПИСАТЬ БЕНЧМАРК И ПОКАЗАТЬ РЕЗУЛЬТАТЫ ИСПОЛЬЗОВАНИЯ ПАМЯТИ
+// https://golangnote.com/golang/golang-stringsbuilder-vs-bytesbuffer //
+
 package main
 
 import (
