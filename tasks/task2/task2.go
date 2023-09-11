@@ -5,8 +5,6 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"sort"
 )
 
 // Определение функции возведения в квадрат
@@ -23,13 +21,8 @@ func main() {
 	for _, num := range nums {
 		go square(num, c) // Запуск горутин
 	}
-	result := []int{}
 	for i := 0; i < len(nums); i++ {
-		result = append(result, <-c) // Добавление в массив при получении результата из канала
+		fmt.Println(<-c) // Отправляем на печать при получении результата
 	}
-	sort.Slice(result, func(i, j int) bool {
-		return result[i] < result[j] // Сортировка массива
-	})
-
-	fmt.Fprintln(os.Stdout, result) // Вывод результата в stdout
+	close(c) // Закрываем канал
 }
