@@ -16,7 +16,7 @@ func square(num int, c chan int) {
 func main() {
 	// Создание канала
 	c := make(chan int)
-	// Перменная из списка (среза?) чисел
+	// Переменная из среза чисел
 	nums := []int{2, 4, 6, 8, 10}
 	for _, num := range nums {
 		go square(num, c) // Запуск горутин
