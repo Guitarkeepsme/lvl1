@@ -24,6 +24,7 @@ func main() {
 		for i := 0; ; i++ {
 			select {
 			case <-ctx.Done():
+				fmt.Println("Время вышло!")
 				return
 			default:
 				infoChan <- i
