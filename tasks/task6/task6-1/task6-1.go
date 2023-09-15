@@ -11,12 +11,12 @@ import (
 func worker(stop <-chan bool) {
 	for {
 		select {
-		default:
-			fmt.Println("Работаю...")
-			time.Sleep(1 * time.Second)
 		case <-stop:
 			fmt.Println("Процесс остановлен!")
 			return
+		default:
+			fmt.Println("Работаю...")
+			time.Sleep(1 * time.Second)
 		}
 	}
 }

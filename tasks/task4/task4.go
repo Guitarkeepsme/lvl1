@@ -19,7 +19,7 @@ import (
 
 func main() {
 	// Инициализируем флаг, позволяющий выбрать количество воркеров
-	workersCount := flag.Int("workersCount", 1, "set count of workers")
+	workersCount := flag.Int("workersCount", 1, "Выберите количество воркеров")
 	flag.Parse()
 
 	// Добавляем контекст: если возникает отмена, программа останавливается
@@ -37,35 +37,33 @@ func main() {
 		go worker(ctx, i, dataChan, &wg)
 	}
 
-	// ПОЧЕМУ СЮДА НУЖЕН КОНТЕКСТ? Не совсем понимаю принцип работы этой части кода
-
 	// Главный поток записывает данные в канал
 	wg.Add(1)
-	go func(ctx context.Context) {
+	go func(ctx context.Context, dataChan chan int) {
 		defer wg.Done()
 		for i := 0; ; i++ {
 			select {
-			case <-ctx.Done():
+			case <-ctx.Done(): // Если контекст завершён,
+				close(dataChan) // закрываем канал
 				return
 			default:
 				dataChan <- i
 			}
 		}
-	}(ctx)
+	}(ctx, dataChan)
 
 	closeChan := make(chan os.Signal, 1)
 	// Ждём сигнала Ctrl+C о завершении работы и передаём его в канал закрытия
 	signal.Notify(closeChan, syscall.SIGINT)
-	<-closeChan
-	fmt.Printf("Got SIGINT, exiting...\n") // Печатаем информацию о подачи сигнала завершения
-	cancel()                               // Когда вызывается эта функция, воркер отрабатывает первый кейс и завершает работу
-	close(dataChan)                        // Закрываем канал
+	<-closeChan                                          // Пока не нажали Ctrl+C, канал блокируется на этой строчке
+	fmt.Printf("Команда получена, завершаю работу...\n") // Как только команда пришла, печатается уведомление о ней
+	cancel()                                             // И завершается контекст
+	wg.Wait()                                            // Затем начинается ожидания закрытия воркеров
 
-	wg.Wait()                                    // Ждём синхронизации закрытия воркеров
-	fmt.Printf("All workers done, exiting...\n") // Печатаем результат завершения программы
+	fmt.Printf("Воркеры завершили работу, отключаюсь.\n") // Печатаем результат завершения программы
 }
 
-// Создание воркера: он принимает контекст, айди, числовые данные из канала,
+// Создание воркера: он принимает контекст, айди для отображения в консоли, числовые данные из канала,
 // а также информацию из WaitGroup
 func worker(ctx context.Context, id int, dataChan <-chan int, wg *sync.WaitGroup) {
 	defer wg.Done()               // Откладываем завершение его работы
