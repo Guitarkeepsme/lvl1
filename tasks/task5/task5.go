@@ -14,11 +14,15 @@ import (
 )
 
 func main() {
+	// Устанавливаем флаг на количество секунд
 	seconds := flag.Int("seconds", 5, "set amount of time")
 	flag.Parse()
+
+	// Вызываем контекст, который сменится после вышеозначенного времени
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(*seconds)*time.Second)
 	defer cancel()
 
+	// Создаём канал, который...
 	infoChan := make(chan int)
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
