@@ -7,6 +7,8 @@ import (
 	"sync"
 )
 
+// Создаём структуру с картой
+// и мьютексом, нужным для конкурентной работы карты
 type ConcurrentMap struct {
 	mu   sync.Mutex
 	even map[int]bool
