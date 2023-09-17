@@ -10,7 +10,7 @@ import (
 func main() {
 	var i interface{}
 
-	i = "ldkfgjd"
+	i = "false"
 
 	// fmt.Print("Введите значение, тип которого надо проверить: \n\n")
 	// fmt.Scanln(&i)
