@@ -2,31 +2,39 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
-func setBit(n int64, pos uint, value int) int64 {
+// Функция принимает исходное число и позицию нужного нам бита
+func setBit(n int64, pos uint) int64 {
+
+	// Создаём маску: число с таким набором битов,
+	// что при выполнении соответствующей побитовой операции
+	// изменится только нужный бит, а остальные останутся неизменными.
+	// Для этого мы сдвигаем единиц влево по индексу бита
+
 	mask := int64(1) << pos
-	if value == 1 {
-		n |= mask
-	} else {
-		n |= ^mask
-	}
+
+	// Теперь проводим "исключающее или" ("ксор"):
+	n ^= mask
+
+	// Возвращаем результат
 	return n
 }
 
 func main() {
 	var num int64
-	var i, value int
+	var i int
 
 	fmt.Print("Введите число: ")
 	fmt.Scanln(&num)
 
-	fmt.Print("Введите индекс бита: ")
+	fmt.Printf("Это число в двоичном представлении выглядит как %s\n", strconv.FormatInt(num, 2))
+	fmt.Print("Теперь введите индекс нужного бита: ")
 	fmt.Scanln(&i)
 
-	fmt.Print("Введите значение: 1 или 0: ")
-	fmt.Scanln(&value)
-
-	res := setBit(num, uint(i), value)
-	fmt.Printf("Результат: %d\n", res)
+	res := setBit(num, uint(i))
+	fmt.Printf("Результат: %d\n(в двоичной системе %s)\n", res, strconv.FormatInt(res, 2))
 }

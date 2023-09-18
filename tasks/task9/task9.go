@@ -8,47 +8,50 @@ import (
 	"sync"
 )
 
-// func gen(nums []int) <- chan int{
+// Создаём две функции, которые будут запускаться в горутинах:
+// первая принимает числа из канала, возводит их в квадрат и
+// отправляет во второй канал:
+func pipelineMultiplier(in chan int, out chan int) {
+	for num := range in {
+		out <- num * num
+	}
+	close(out)
+}
 
-// }
+// Вторая принимает информацию о количестве ожидающих горутин
+// и квадраты чисел, а затем выводит их в консоль
+func pipelinePrinter(wg *sync.WaitGroup, out chan int) {
+	for el := range out {
+		fmt.Println(el)
+	}
+	// После этого все ожидающие горутины завершаются
+	// и размораживается main
+	wg.Done()
+}
 
 func main() {
-	// НУЖЕН ЛИ ТУТ МЬЮТЕКС?
-	var mutex sync.Mutex
 
-	nums := []int{3, 7, 20, 31}
+	nums := []int{3, 7, 20, 31, 9, 1356}
+
+	wg := sync.WaitGroup{}
+	wg.Add(2)
 
 	// Создаём два буферизированных канала: в один будем писать числа из nums,
 	// В другой фиксируем результат возведения этих чисел в квадрат.
-
-	// БЕЗ БУФЕРА происходил дедлок. Почему?
 	startChan := make(chan int, len(nums))
 	resChan := make(chan int, len(nums))
 
-	// Проходим циклом по массиву и отправляем каждое число в канал
-	for _, num := range nums {
-		mutex.Lock()
-		startChan <- num
-		mutex.Unlock()
-	}
+	go func() {
+		for _, num := range nums {
+			startChan <- num
+		}
 
-	// Закрываем канал после того, как перенесли в него всю информацию
-	close(startChan)
+		close(startChan)
+		wg.Done()
+	}()
+	// Запускаем
+	go pipelineMultiplier(startChan, resChan)
+	go pipelinePrinter(&wg, resChan)
 
-	// Теперь циклом возводим каждое число из первого канала в квадрат
-	// и отправляем полученный результат во второй канал
-	for num := range startChan {
-		mutex.Lock()
-		resChan <- num * num
-		mutex.Unlock()
-	}
-
-	// Закрываем второй канал
-	close(resChan)
-
-	// Печатаем результат
-	for square := range resChan {
-		fmt.Println(square)
-	}
-
+	wg.Wait()
 }
