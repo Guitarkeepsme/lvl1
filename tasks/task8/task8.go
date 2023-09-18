@@ -29,11 +29,18 @@ func main() {
 	var i int
 
 	fmt.Print("Введите число: ")
-	fmt.Scanln(&num)
+	_, err := fmt.Scanln(&num)
+	if err != nil {
+		panic("Вы ввели некорректные данные!")
+	}
 
 	fmt.Printf("Это число в двоичном представлении выглядит как %s\n", strconv.FormatInt(num, 2))
 	fmt.Print("Теперь введите индекс нужного бита: ")
-	fmt.Scanln(&i)
+
+	_, err = fmt.Scanln(&i)
+	if err != nil {
+		panic("Вы ввели некорректные данные!")
+	}
 
 	res := setBit(num, uint(i))
 	fmt.Printf("Результат: %d\n(в двоичной системе %s)\n", res, strconv.FormatInt(res, 2))

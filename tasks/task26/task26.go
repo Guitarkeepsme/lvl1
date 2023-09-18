@@ -18,7 +18,10 @@ func main() {
 	// впишем строку через консоль
 	var str string
 	fmt.Println("Введите слово или фразу:")
-	fmt.Scanln(&str)
+	_, err := fmt.Scanln(&str)
+	if err != nil {
+		panic("Вы ввели некорректные данные!")
+	}
 	fmt.Printf("\nРезультат: %t\n\n", isUnique(str))
 }
 

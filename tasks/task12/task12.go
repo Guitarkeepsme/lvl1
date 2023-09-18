@@ -6,7 +6,7 @@ import "fmt"
 
 // Собственным множеством будет слайс строк
 func ownSet(arr []string) []string {
-	// Для начала создаём мапу с пустыми значениями
+	// Для начала создаём карту с пустыми значениями
 	mp := make(map[string]struct{})
 	// И переменную для результата
 	res := make([]string, 0)
@@ -14,13 +14,11 @@ func ownSet(arr []string) []string {
 	// Каждое слово в исходной последовательности
 	// отправляется в карту
 	for _, word := range arr {
+		if _, ok := mp[word]; ok {
+			continue // Если слово уже есть, пропускаем
+		}
 		mp[word] = struct{}{}
-	}
-	// Затем проходим по ключам карты
-	// и добавляем их в результат, таким образом
-	// исключая повторы
-	for key := range mp {
-		res = append(res, key)
+		res = append(res, word)
 	}
 	return res
 }

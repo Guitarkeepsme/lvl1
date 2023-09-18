@@ -34,13 +34,18 @@ func main() {
 	p1, p2 := new(Point), new(Point)
 
 	fmt.Println("Задайте координаты первого числа:")
-	fmt.Scanln(&x1, &y1)
+	_, err := fmt.Scanln(&x1, &y1)
+	if err != nil {
+		panic("Вы ввели некорректные данные!")
+	}
 
 	fmt.Println("Задайте координаты второго числа:")
-	fmt.Scanln(&x2, &y2)
+	_, err = fmt.Scanln(&x2, &y2)
+	if err != nil {
+		panic("Вы ввели некорректные данные!")
+	}
 
 	p1.SetPoint(x1, y1)
-
 	p2.SetPoint(x2, y2)
 
 	res := CountAdress(*p1, *p2)
