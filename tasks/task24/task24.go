@@ -27,11 +27,18 @@ func CountAdress(p1, p2 Point) float64 {
 }
 
 func main() {
+	var x1, y1, x2, y2 float64
 	p1, p2 := new(Point), new(Point)
 
-	p1.SetPoint(2, 3)
+	fmt.Println("Задайте координаты первого числа:")
+	fmt.Scanln(&x1, &y1)
 
-	p2.SetPoint(4, 3)
+	fmt.Println("Задайте координаты второго числа:")
+	fmt.Scanln(&x2, &y2)
+
+	p1.SetPoint(x1, y1)
+
+	p2.SetPoint(x2, y2)
 
 	res := CountAdress(*p1, *p2)
 
