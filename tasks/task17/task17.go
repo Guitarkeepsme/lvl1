@@ -4,7 +4,7 @@ package main
 
 import "fmt"
 
-func binarySearch(arr []int, tgt int) (i int) {
+func binarySearch(arr []int, tgt int) (i int, ok bool) {
 	first := 0
 	last := len(arr) - 1
 	res := 0
@@ -21,11 +21,11 @@ func binarySearch(arr []int, tgt int) (i int) {
 		}
 	}
 	if first == len(arr) || arr[first] != tgt {
-		return -1
+		return 0, false
 	}
-	return res
+	return res, true
 }
 
 func main() {
-	fmt.Println(binarySearch([]int{3, 5, 7, 10, 13, 20}, 5))
+	fmt.Println(binarySearch([]int{3, 5, 7, 10, 13, 20}, 75))
 }

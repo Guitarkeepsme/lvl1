@@ -1,4 +1,5 @@
-// Разработать программу, которая в рантайме способна определить тип переменной: int, string, bool, channel из переменной типа interface{}.
+// Разработать программу, которая в рантайме способна определить тип переменной:
+// int, string, bool, channel из переменной типа interface{}.
 
 package main
 
@@ -10,10 +11,10 @@ import (
 func main() {
 	var i interface{}
 
-	i = "false"
-
-	// fmt.Print("Введите значение, тип которого надо проверить: \n\n")
-	// fmt.Scanln(&i)
+	i = true
+	// if i == nil {
+	// 	panic("Нельзя проверить тип данных!")
+	// }
 
 	res := getType(i)
 	fmt.Printf("Тип переменной: %s\n", res)
@@ -22,7 +23,7 @@ func main() {
 func getType(i interface{}) string {
 	t := reflect.TypeOf(i)
 	switch t.Kind() {
-	case reflect.Int:
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		return "Int"
 	case reflect.String:
 		return "String"

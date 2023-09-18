@@ -23,7 +23,7 @@ func quickSort(arr []int, low, high int) []int {
 		var p int
 		arr, p = partition(arr, low, high)
 		arr = quickSort(arr, low, p-1)
-		arr = quickSort(arr, p+1, high)
+		arr = quickSort(arr, p, high)
 	}
 	return arr
 }
