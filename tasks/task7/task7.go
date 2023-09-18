@@ -36,6 +36,7 @@ func (cm *ConcurrentMap) get(key int) (bool, bool) {
 func main() {
 	cm := newConturrentMap()
 
+	// ДОБАВИТЬ ЦИКЛ ЧИСЕЛ
 	cm.set(2, true)
 	cm.set(3, false)
 	value, ok := cm.get(3)

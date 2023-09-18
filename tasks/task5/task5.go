@@ -15,7 +15,7 @@ import (
 
 func main() {
 	// Устанавливаем флаг на количество секунд
-	seconds := flag.Int("seconds", 5, "set amount of time")
+	seconds := flag.Int("seconds", 5, "количество секунд")
 	flag.Parse()
 
 	// Вызываем контекст, который сменится после вышеозначенного времени
