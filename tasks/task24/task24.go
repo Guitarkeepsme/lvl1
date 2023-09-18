@@ -9,10 +9,13 @@ import (
 	"math"
 )
 
+// Создаём структуру точки, чтобы
+// присвоить координатам необходимые методы
 type Point struct {
 	x, y float64
 }
 
+// Этот метод
 func (p *Point) SetPoint(x, y float64) {
 	p.x = x
 	p.y = y
