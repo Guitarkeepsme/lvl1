@@ -5,12 +5,9 @@
 package main
 
 import (
-	// "flag"
 	"fmt"
 	"math"
 	"sort"
-	// "strings"
-	// "strconv"
 )
 
 // С помощью этой функции разделяем показатели температур
@@ -43,16 +40,3 @@ func main() {
 	fmt.Println(res)
 
 }
-
-/* Хотелось бы сделать возможность ввода любых данных,
-если получится
-
-Начало попыток:
-
-	defString := "-25.4,-27.0,13.0,19.0,15.5,24.5,-21.0,32.5"
-	tempString := flag.String("temps", defString, "Введите список температур через запятую в формате -22.3, 15.2")
-	flag.Parse()
-
-	tempList := (strings.Split(*tempString, ","))
-	strconv.ParseFloat(tempList)
-	fmt.Println("Введите список температур через запятую в формате -22.3,15.2") */
