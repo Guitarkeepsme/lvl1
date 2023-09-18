@@ -16,10 +16,10 @@ func main() {
 	flag.Parse()
 
 	// Переводим строку в слайс рун
-	runes := string([]rune(*str))
+	runes := string(*str)
 
 	// Разбиваем слова по пробелам
-	splited := strings.Split(string(runes), " ")
+	splited := strings.Split(runes, " ")
 
 	// Переменная ss нужна для сбора слов в обратном порядке
 	var ss []string

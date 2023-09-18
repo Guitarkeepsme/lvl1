@@ -25,23 +25,23 @@ func main() {
 	parsedB, _ := decimal.NewFromString(*b)
 
 	// Проводим операции с ними
-	sum := parsedA.Add(parsedB)
-	sub := parsedA.Sub(parsedB)
-	mul := parsedA.Mul(parsedB)
-	div := parsedA.Div(parsedB)
 
 	// Создаём условия для выбора операции
 	switch *oper {
 	case "sum":
+		sum := parsedA.Add(parsedB)
 		fmt.Printf("%s\n", sum)
 	case "sub":
+		sub := parsedA.Sub(parsedB)
 		fmt.Printf("%s\n", sub)
 	case "mul":
+		mul := parsedA.Mul(parsedB)
 		fmt.Printf("%s\n", mul)
 	case "div":
+		div := parsedA.Div(parsedB)
 		fmt.Printf("%s\n", div)
 	default:
-		fmt.Printf("%s\n", sum)
+		panic("Введена неизвестная команда!")
 	}
 
 }
