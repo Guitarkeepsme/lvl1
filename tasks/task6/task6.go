@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"sync"
 	"time"
 )
 
@@ -20,7 +19,7 @@ func stopByChan() {
 			select {
 			// Когда в канал перейдёт true, останавливаем процесс
 			case <-stop:
-				fmt.Println("Процесс остановлен.")
+				fmt.Println("Канал закрыт.")
 				return
 			// Иначе демонстрируем работу
 			default:
@@ -69,59 +68,27 @@ func stopByContext(ctx context.Context) {
 
 }
 
-// 3 способ: остановка горутины посредством WaitGroup
-
-func stopByWaitGroup() {
-	// Выставляем WaitGroup
-	wg := sync.WaitGroup{}
-	// Инициализируем канал для передачи информации об остановке горутины
-	check := make(chan bool)
-	// Сообщаем WaitGroup о том, что у нас будет всего одна горутина
-	wg.Add(1)
-	// Создаём анонимную горутину
-	go func() {
-		for {
-			select {
-			// Если в канал переход информация о завершении работы, останавливаем программу
-			case <-check:
-				fmt.Println("Программа завершена с помощью WaitGroup!")
-				// Завершаем WaitGroup
-				wg.Done()
-				return
-			default:
-				// Иначе демонстрируем работу
-				fmt.Println("Работаю...")
-				time.Sleep(1 * time.Second)
-			}
-		}
-	}()
-	// Ставим счётчик для наглядности работы
-	time.Sleep(3 * time.Second)
-
-	// По истечении времени отправляем в счётчик информацию о закрытии WaitGroup
-	check <- true
-	// Закрываем канал
-	close(check)
-	// Ожидаем синхронизации горутин
-	wg.Wait()
-}
-
-// 4 способ: остановка горутины после паники и обработка паники с помощью recover
+// 3 способ: остановка горутины после паники и обработка паники с помощью recover
 
 func stopByPanic() {
 	defer func() {
+		// Обрабатываем панику
 		if err := recover(); err != nil {
 			log.Println("Произошла паника:", err)
 		}
-		fmt.Println("Мы пережили деление на ноль!")
+		time.Sleep(1 * time.Second)
+		// Демонстрируем жизнь после паники
+		fmt.Println("Живу после паники!")
 	}()
+	// Вызываем панику делением на ноль
 	a, b := 1, 0
 	fmt.Println(a / b)
 }
 
 func main() {
+	go stopByPanic() // Запускаем горутину
+	time.Sleep(2 * time.Second)
 	stopByContext(context.Background())
+	time.Sleep(2 * time.Second)
 	stopByChan()
-	stopByWaitGroup()
-	stopByPanic()
 }
