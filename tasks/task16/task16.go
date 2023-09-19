@@ -4,26 +4,46 @@ package main
 
 import "fmt"
 
-func quicksort(arr []int, low, high int) {
-	if low < high {
-		pivot := partition(arr, low, high)
-		quicksort(arr, low, pivot-1)
-		quicksort(arr, pivot+1, high)
+func quicksort(arr []int, left, right int) {
+	if left < right {
+		// Находим опорную точку с помощью функции,
+		// работа которой описана ниже
+		pivot := partition(arr, left, right)
+		// Рекурсивно сортируем правую и левую части
+		quicksort(arr, left, pivot-1)
+		quicksort(arr, pivot+1, right)
 	}
 }
 
-func partition(arr []int, low, high int) int {
-	pivot := arr[high]
-	i := low - 1
+func partition(arr []int, left, right int) int {
+	// Опорный элемент сначала находится справа
+	pivot := arr[right]
+	// А индекс, сооветственно, слева: эта переменная будет
+	// отслеживать позицию, в которой должны быть размещены
+	// элементы меньше точки поворота.
+	i := left - 1
 
-	for j := low; j < high; j++ {
+	// Проходим циклом по всем элементам и сравниваем их
+	// с опорным элементом
+	for j := left; j < right; j++ {
+		// Если текущий элемент (`arr[j]`) меньше
+		// опорного элемента, это означает, что его
+		// следует поместить перед элементами, меньшими опорного.
+		// Для этого переменная `i` увеличивается, а текущий элемент
+		// (`arr[j]`) заменяется элементом в позиции `i`.
 		if arr[j] < pivot {
 			i++
 			arr[i], arr[j] = arr[j], arr[i]
 		}
 	}
+	// После завершения цикла все элементы меньше точки поворота
+	// помещаются перед позицией "i+1". Чтобы гарантировать, что
+	// поворотный элемент находится в правильном положении,
+	// заменяем его элементом в позиции "i+1"
+	arr[i+1], arr[right] = arr[right], arr[i+1]
 
-	arr[i+1], arr[high] = arr[high], arr[i+1]
+	// Наконец, функция возвращает позицию `i+1`, которая
+	// представляет индекс опорного элемента в переупорядоченном массиве.
 	return i + 1
 }
 
@@ -31,5 +51,5 @@ func main() {
 	arr := []int{10, 7, 8, 9, 1, 5, 50, 13, 0, 734}
 	n := len(arr)
 	quicksort(arr, 0, n-1)
-	fmt.Println("Sorted array:", arr)
+	fmt.Println("Отсортированный массив:", arr)
 }
