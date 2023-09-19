@@ -36,16 +36,10 @@ func main() {
 	p1, p2 := new(Point), new(Point)
 
 	fmt.Println("Задайте координаты первого числа:")
-	_, err := fmt.Scanln(&x1, &y1)
-	if err != nil {
-		panic("Вы ввели некорректные данные!")
-	}
+	fmt.Scanln(&x1, &y1)
 
 	fmt.Println("Задайте координаты второго числа:")
-	_, err = fmt.Scanln(&x2, &y2)
-	if err != nil {
-		panic("Вы ввели некорректные данные!")
-	}
+	fmt.Scanln(&x2, &y2)
 
 	p1.SetPoint(x1, y1)
 	p2.SetPoint(x2, y2)
