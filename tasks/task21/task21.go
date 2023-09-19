@@ -45,3 +45,10 @@ func main() {
 	russianText := adapter.SpeakRussian()
 	fmt.Println(russianText) // Выводит: Привет!
 }
+
+/* В данном примере у нас есть имеющийся интерфейс `EnglishSpeaker` с методом `SpeakEnglish()`,
+который реализуется структурой `EnglishPerson`. Также есть целевой интерфейс `RussianSpeaker`
+с методом `SpeakRussian()`. Адаптер `Adapter` реализует целевой интерфейс
+и содержит в себе экземпляр имеющегося интерфейса `EnglishSpeaker`.
+В методе `SpeakRussian()` адаптер вызывает метод `SpeakEnglish()`
+у имеющегося интерфейса, а затем преобразует полученный английский текст в русский. */
