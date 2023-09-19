@@ -20,7 +20,9 @@ func main() {
 	fmt.Printf("Тип переменной: %s\n", res)
 }
 
+// Принимаем данные любого типа
 func getType(i interface{}) string {
+	// Используем рефлект, чтобы определить тип данных
 	t := reflect.TypeOf(i)
 	switch t.Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:

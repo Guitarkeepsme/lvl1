@@ -4,34 +4,32 @@ package main
 
 import "fmt"
 
-func partition(arr []int, first, last int) ([]int, int) {
-	pivot := arr[last]
+func quicksort(arr []int, low, high int) {
+	if low < high {
+		pivot := partition(arr, low, high)
+		quicksort(arr, low, pivot-1)
+		quicksort(arr, pivot+1, high)
+	}
+}
 
-	i := first
-	for n := first; n < last; n++ {
-		if arr[i] < pivot {
-			arr[i], arr[n] = arr[n], arr[i]
+func partition(arr []int, low, high int) int {
+	pivot := arr[high]
+	i := low - 1
+
+	for j := low; j < high; j++ {
+		if arr[j] < pivot {
 			i++
+			arr[i], arr[j] = arr[j], arr[i]
 		}
 	}
-	arr[i], arr[last] = arr[last], arr[i]
-	return arr, i
-}
 
-func quickSort(arr []int, low, high int) []int {
-	if low < high {
-		var p int
-		arr, p = partition(arr, low, high)
-		arr = quickSort(arr, low, p-1)
-		arr = quickSort(arr, p, high)
-	}
-	return arr
-}
-
-func quickSortStart(arr []int) []int {
-	return quickSort(arr, 0, len(arr)-1)
+	arr[i+1], arr[high] = arr[high], arr[i+1]
+	return i + 1
 }
 
 func main() {
-	fmt.Println(quickSortStart([]int{1, 3, 5, 2, 10, 7, 35, 0}))
+	arr := []int{10, 7, 8, 9, 1, 5, 50, 13, 0, 734}
+	n := len(arr)
+	quicksort(arr, 0, n-1)
+	fmt.Println("Sorted array:", arr)
 }

@@ -15,16 +15,18 @@ type Point struct {
 	x, y float64
 }
 
-// Этот метод
+// Этот метод выставляет точку по х и у
 func (p *Point) SetPoint(x, y float64) {
 	p.x = x
 	p.y = y
 }
 
+// Этот определяет её координаты
 func (p *Point) Coords() (float64, float64) {
 	return p.x, p.y
 }
 
+// Функция, считающая расстояние между двумя точками
 func CountAdress(p1, p2 Point) float64 {
 	return math.Sqrt(math.Pow(p2.x-p1.x, 2) + math.Pow(p2.y-p1.y, 2))
 }

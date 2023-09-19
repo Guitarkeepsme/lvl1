@@ -5,22 +5,31 @@ package main
 import "fmt"
 
 func binarySearch(arr []int, tgt int) (i int, ok bool) {
-	first := 0
-	last := len(arr) - 1
+	// Определяем первый и последний элементы
+	left := 0
+	right := len(arr) - 1
 	res := 0
-	for first <= last {
-		mdl := (first + last) / 2
-
+	// Пока первый ниже или равен последнему
+	for left <= right {
+		// Серединой будет это:
+		mdl := (left + right) / 2
+		// И если мы уже нашли таргет,
+		// заносим его в результат
 		if arr[mdl] == tgt {
 			res = mdl
 		}
+		// Если мы оказались слева, сдвигаем первый индекс
+		// вправо
 		if arr[mdl] < tgt {
-			first = mdl + 1
+			left = mdl + 1
+			// Иначе наоборот
 		} else {
-			last = mdl - 1
+			right = mdl - 1
 		}
 	}
-	if first == len(arr) || arr[first] != tgt {
+	// Если мы дошли до конца, но так и не нашли таргет,
+	// это значит, таргета тут нет
+	if left == len(arr) || arr[right] != tgt {
 		return 0, false
 	}
 	return res, true

@@ -11,11 +11,13 @@ import (
 	"time"
 )
 
+// Создаём структуру счётчика
 type Counter struct {
 	mutex sync.Mutex
 	num   int64
 }
 
+// Первый счётчик будет использовать Мьютекс
 func numCounter() *Counter {
 	return &Counter{
 		mutex: sync.Mutex{},
@@ -28,14 +30,17 @@ func (c *Counter) MutexCounter() {
 	c.mutex.Unlock()
 }
 
+// Второй работает с помощью атомиков
 func (c *Counter) AtomicCounter() {
 	atomic.AddInt64(&c.num, 1)
 }
 
 func main() {
+	// Задаём дефолтное значение горутин
 	defNum := 10
 	cnt1, cnt2 := numCounter(), numCounter()
 
+	// И запускаем горутины в цикле
 	for i := 0; i < defNum; i++ {
 		go func() {
 			for {
@@ -44,6 +49,7 @@ func main() {
 		}()
 	}
 
+	// И здесь
 	for i := 0; i < defNum; i++ {
 		go func() {
 			for {
@@ -52,6 +58,7 @@ func main() {
 		}()
 	}
 
+	// Ждём 10 секунд, пока они посчитают
 	time.Sleep(10 * time.Second)
 
 	fmt.Println("Посчитано через Mutex:  ", cnt1.num)
